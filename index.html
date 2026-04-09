@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dissertation Template Editor</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Mobile Menu Toggle -->
+        <button id="menu-toggle" class="mobile-only" aria-label="Toggle Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <!-- Sidebar -->
+        <aside id="sidebar">
+            <header>
+                <h1>Editor</h1>
+                <button id="download-pdf" class="btn-primary">Download PDF</button>
+            </header>
+
+            <section class="controls">
+                <div class="tabs">
+                    <button class="tab-link active" data-tab="info">Info</button>
+                    <button class="tab-link" data-tab="design">Design</button>
+                    <button class="tab-link" data-tab="content">Content</button>
+                </div>
+
+                <!-- Student Info Tab -->
+                <div id="info" class="tab-content active">
+                    <h3>Student Information</h3>
+                    <div class="form-group">
+                        <label>Student Name</label>
+                        <input type="text" id="studentName" data-sync="student-name">
+                    </div>
+                    <div class="form-group">
+                        <label>Guide Name</label>
+                        <input type="text" id="guideName" data-sync="guide-name">
+                    </div>
+                    <div class="form-group">
+                        <label>Department</label>
+                        <input type="text" id="departmentName" data-sync="dept-name">
+                    </div>
+                    <div class="form-group">
+                        <label>College</label>
+                        <input type="text" id="collegeName" data-sync="college-name">
+                    </div>
+                    <div class="form-group">
+                        <label>University</label>
+                        <input type="text" id="universityName" data-sync="uni-name">
+                    </div>
+                    <div class="form-group">
+                        <label>Class Roll No</label>
+                        <input type="text" id="classRoll" data-sync="class-roll">
+                    </div>
+                    <div class="form-group">
+                        <label>Exam Roll No</label>
+                        <input type="text" id="examRoll" data-sync="exam-roll">
+                    </div>
+                    <div class="form-group">
+                        <label>Registration No</label>
+                        <input type="text" id="regNo" data-sync="reg-no">
+                    </div>
+                    <div class="form-group">
+                        <label>Session</label>
+                        <input type="text" id="session" data-sync="session">
+                    </div>
+                </div>
+
+                <!-- Design Tab -->
+                <div id="design" class="tab-content">
+                    <h3>Global Design</h3>
+                    <div class="form-group">
+                        <label>Main Font</label>
+                        <select id="fontFamily">
+                            <option value="'Libre Baskerville', serif">Serif (Classic)</option>
+                            <option value="'Inter', sans-serif">Sans-Serif (Modern)</option>
+                            <option value="'Playfair Display', serif">Display (Elegant)</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Primary Color</label>
+                        <input type="color" id="primaryColor" value="#0A1172">
+                    </div>
+                    <div class="form-group">
+                        <label>Accent Color</label>
+                        <input type="color" id="accentColor" value="#FC4C4E">
+                    </div>
+                    <div class="form-group">
+                        <label>Border Thickness</label>
+                        <input type="range" id="borderWidth" min="0" max="20" value="10">
+                    </div>
+                    <div class="form-group">
+                        <label>Border Color</label>
+                        <input type="color" id="borderColor" value="#000000">
+                    </div>
+                    <div class="form-group">
+                        <label>Line Spacing</label>
+                        <input type="range" id="lineSpacing" min="1" max="3" step="0.1" value="2.2">
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                        <label>Line Spacing</label>
+                        <input type="range" id="lineSpacing" min="1" max="3" step="0.1" value="2.2">
+                    </div>
+                </div>
+
+                <!-- Body Content Tab -->
+                <div id="content" class="tab-content">
+                    <h3>Page Content</h3>
+                    <div class="form-group">
+                        <label>Project Title</label>
+                        <textarea id="projectTitle" data-sync="proj-title"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Logo Uploads</label>
+                        <div class="upload-controls">
+                            <div class="upload-item">
+                                <span>Main Logo</span>
+                                <input type="file" id="upload-logo" accept="image/*">
+                            </div>
+                            <div class="upload-item">
+                                <span>Icon Logo</span>
+                                <input type="file" id="upload-icon" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Declaration Text</label>
+                        <div class="toolbar" data-editor="declarationText">
+                            <button type="button" data-command="bold"><b>B</b></button>
+                            <button type="button" data-command="italic"><i>I</i></button>
+                        </div>
+                        <div id="declarationText" class="rich-editor" contenteditable="true" data-sync="decl-text"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Acknowledgement Text</label>
+                        <div class="toolbar" data-editor="ackText">
+                            <button type="button" data-command="bold"><b>B</b></button>
+                            <button type="button" data-command="italic"><i>I</i></button>
+                        </div>
+                        <div id="ackText" class="rich-editor" contenteditable="true" data-sync="ack-text"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bibliography</label>
+                        <textarea id="bibText" data-sync="bib-text"></textarea>
+                    </div>
+                </div>
+            </section>
+        </aside>
+
+        <!-- Preview Area -->
+        <main id="preview">
+            <div id="pages-container">
+                <!-- Page 1: Primary Cover -->
+                <section class="page page-cover-primary" id="page-1">
+                    <div class="page-content">
+                        <div class="border-double"></div>
+                        <div class="content-wrapper">
+                            <p class="tagline">PROJECT REPORT ON</p>
+                            <div class="uni-header">
+                                <svg class="uni-arc-svg" viewBox="0 0 500 150">
+                                    <path id="curve" d="M75,120 Q250,20 425,120" fill="transparent" />
+                                    <text width="500">
+                                        <textPath href="#curve" startOffset="50%" text-anchor="middle">
+                                            PATLIPUTRA UNIVERSITY
+                                        </textPath>
+                                    </text>
+                                </svg>
+                                <img src="logo-icon.png" alt="University Logo" class="logo-small sync-logo-icon">
+                            </div>
+                            <h1 class="sync-proj-title">ADVANCED QUANTUM MECHANICS</h1>
+                            <p class="dept-name sync-dept-name">DEPARTMENT OF PHYSICS</p>
+                            <p class="college-name sync-college-name">J.D. WOMEN'S COLLEGE</p>
+                            <p class="uni-name-full sync-uni-name">PATLIPUTRA UNIVERSITY, PATNA</p>
+                            <img src="logo.png" alt="College Logo" class="logo-main sync-logo-main">
+                            <p class="by-text">BY</p>
+                            <p class="student-name sync-student-name">REET KUMARI</p>
+                            <div class="student-details">
+                                <p>EXAM ROLL NO. -- <span class="sync-exam-roll">2520891050018</span></p>
+                                <p>REGISTRATION NO. -- <span class="sync-reg-no">1920523111050001</span></p>
+                                <p>CLASS ROLL NO. -- <span class="sync-class-roll">24</span></p>
+                                <p>SESSION -- <span class="sync-session">2024--2026</span></p>
+                            </div>
+                            <div class="guidance">
+                                <p>Under the guidance of :-</p>
+                                <p class="guide-name sync-guide-name">Dr. ABHISHEK KUMAR</p>
+                                <p class="sync-dept-name">DEPARTMENT OF PHYSICS</p>
+                                <p class="sync-college-name">J.D. WOMEN'S COLLEGE, PATNA</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Page 2: White Cover -->
+                <section class="page page-white" id="page-2">
+                    <div class="page-content">
+                        <div class="border-double"></div>
+                        <div class="content-wrapper">
+                            <p class="tagline">PROJECT REPORT ON</p>
+                            <h1 class="sync-proj-title">Theory of Scattering</h1>
+                            <p class="sub-title">(Advanced Quantum Mechanics)</p>
+                            <p class="dept-name-large sync-dept-name">DEPARTMENT OF PHYSICS</p>
+                            <p class="college-name-large sync-college-name">J.D. WOMEN'S COLLEGE</p>
+                            <p class="uni-name-large sync-uni-name">PATLIPUTRA UNIVERSITY, PATNA</p>
+                            <img src="logo.png" alt="Logo" class="logo-small-centered">
+                            <p class="by-text">BY</p>
+                            <p class="student-name-large sync-student-name">REET KUMARI</p>
+                            <div class="student-details-list">
+                                <p>EXAM ROLL NO. -- <span class="sync-exam-roll">2520891050018</span></p>
+                                <p>REGISTRATION NO. -- <span class="sync-reg-no">1920523111050001</span></p>
+                                <p>CLASS ROLL NO. -- <span class="sync-class-roll">24</span></p>
+                                <p>SESSION -- <span class="sync-session">2024--2026</span></p>
+                            </div>
+                            <div class="guidance-footer">
+                                <p>Under the guidance of :-</p>
+                                <p class="guide-name-large sync-guide-name">Dr. ABHISHEK KUMAR</p>
+                                <p class="sync-dept-name">DEPARTMENT OF PHYSICS</p>
+                                <p class="sync-college-name">J.D. WOMEN'S COLLEGE, PATNA</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Page 3: Inserted Page -->
+                <section class="page page-gold" id="page-3">
+                    <div class="page-content">
+                        <div class="border-gold"></div>
+                        <header class="gold-header">
+                            PROJECT REPORT 2026
+                        </header>
+                        <div class="content-wrapper">
+                            <div class="uni-stack">
+                                <img src="logo-icon.png" alt="Watermark" class="watermark">
+                                <img src="logo-icon.png" alt="Logo" class="logo-center">
+                                <div class="uni-arc-large">PATLIPUTRA UNIVERSITY</div>
+                            </div>
+                            <h1 class="sync-proj-title">"THEORY OF SCATTERING"</h1>
+                            <p class="sub-title">(ADVANCED QUANTUM MECHANICS)</p>
+                            
+                            <div class="submission">
+                                <p>Submitted to</p>
+                                <p class="sync-college-name">J.D. WOMEN'S COLLEGE, PATNA</p>
+                                <p class="sync-dept-name">DEPARTMENT OF PHYSICS</p>
+                                <p>SESSION <span class="sync-session">2024--2026</span></p>
+                            </div>
+
+                            <div class="info-split-footer">
+                                <div class="guide-info">
+                                    <p class="label">NAME OF THE GUIDE</p>
+                                    <p class="sync-guide-name">Dr. ABHISHEK KUMAR</p>
+                                    <p>(HOD), Physics Department</p>
+                                    <p class="sync-college-name">J.D. WOMEN'S COLLEGE</p>
+                                    <p>PATNA</p>
+                                </div>
+                                <div class="student-info-box">
+                                    <p class="label">SUBMITTED BY</p>
+                                    <p class="sync-student-name">REET KUMARI</p>
+                                    <p>Exam Roll No. -- <span class="sync-exam-roll">2520891050018</span></p>
+                                    <p>Reg. No. -- <span class="sync-reg-no">1920523111050001</span></p>
+                                    <p>M.Sc. Physics, IV Semester</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Page 4: Declaration -->
+                <section class="page page-standard" id="page-4">
+                    <div class="page-content">
+                        <div class="border-gold"></div>
+                        <div class="content-wrapper">
+                            <h1 class="page-title decl-color">DECLARATION</h1>
+                            <div class="body-text sync-decl-text">
+                                I [Student Name] here by declare that this dissertation entitled "[Project Title]" is outcome of my own study taken under the guidance of [Guide Name] [Dept Name], [College Name]. I have duly acknowledged all the source used by me in the preparation of the dissertation.
+                            </div>
+                            <div class="signature-box">
+                                <p class="sync-student-name">REET KUMARI</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Page 5: Certificate -->
+                <section class="page page-standard" id="page-5">
+                    <div class="page-content">
+                        <div class="border-gold"></div>
+                        <header class="page-header-small">
+                            <div class="dept-left">
+                                <p class="sync-dept-name">P.G DEPARTMENT OF PHYSICS</p>
+                                <p class="sync-college-name">J.D. Women's College Patna</p>
+                            </div>
+                            <div class="date-right">
+                                DATE:- <span id="current-date">09 April 2026</span>
+                            </div>
+                        </header>
+                        <div class="content-wrapper">
+                            <h1 class="page-title cert-color">CERTIFICATE</h1>
+                            <div class="body-text sync-cert-text">
+                                This is certifying that the dissertation entitled "[Project Title]" is the recorded of the original work done by [Student Name] M.SC SEM 4th under my supervision. The contents of the research presented in the dissertation have not previously formed the basis award of any degree, certificate of university.
+                            </div>
+                            <div class="signature-box-large">
+                                <p><strong>Signature of Invigilator</strong></p>
+                                <p>Head of the Department</p>
+                                <p>of Physics,</p>
+                                <p class="sync-college-name">J. D. Women's College, Patna</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Page 6: Acknowledgement -->
+                <section class="page page-standard" id="page-6">
+                    <div class="page-content">
+                        <div class="border-double thin"></div>
+                        <div class="content-wrapper">
+                            <h1 class="page-title ack-color">ACKNOWLEDGEMENT</h1>
+                            <p class="sub-tag">(Project Report -- M.Sc. Physics, Session <span class="sync-session">2024--2026</span>)</p>
+                            <div class="body-text sync-ack-text">
+                                I would like to express my sincere and respectful gratitude to [Guide Name], Head of the Department of Physics...
+                            </div>
+                            <div class="signature-box">
+                                <p>Date: <span class="sync-date">01 April 2026</span></p>
+                                <p class="sync-student-name">Reet Kumari</p>
+                            </div>
+                        </div>
+                        <footer class="page-footer">2</footer>
+                    </div>
+                </section>
+
+                <!-- Page 7: Bibliography -->
+                <section class="page page-standard" id="page-7">
+                    <div class="page-content">
+                        <div class="border-plain"></div>
+                        <div class="content-wrapper">
+                            <h1 class="page-title">BIBLIOGRAPHY</h1>
+                            <div class="body-text bib-list sync-bib-text">
+                                <!-- Bibliographic references will go here -->
+                                [1] D. J. Griffiths, Introduction to Elementary Particles...
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Page 8: Closing Page -->
+                <section class="page page-closing" id="page-8">
+                    <div class="page-content">
+                        <div class="border-double"></div>
+                        <div class="content-wrapper">
+                            <h1 class="thank-you">THANK YOU</h1>
+                            <p class="closing-status">PROJECT REPORT COMPLETED</p>
+                            <img src="logo-icon.png" alt="Logo" class="logo-footer">
+                            <h2 class="sync-proj-title">ADVANCED QUANTUM MECHANICS</h2>
+                            <div class="footer-info">
+                                <p>Submitted by</p>
+                                <p class="sync-student-name">REET KUMARI</p>
+                                <p class="sync-uni-name">PATLIPUTRA UNIVERSITY, PATNA</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
