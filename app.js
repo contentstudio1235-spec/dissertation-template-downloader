@@ -130,18 +130,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Auto-scaling for pages
     function adjustScaling() {
-        const previewWidth = preview.clientWidth - 40;
+        if (!preview) return;
+        
+        // Use getBoundingClientRect for more stable measurement
+        const rect = preview.getBoundingClientRect();
+        const previewWidth = rect.width - 40;
         const pageWidth = 21 * 37.795; // A4 width in px at 96dpi
         
-        if (previewWidth < pageWidth) {
+        if (previewWidth < pageWidth && previewWidth > 0) {
             let scale = previewWidth / pageWidth;
-            // Never scale below 0.3 to keep it visible
-            if (scale < 0.3) scale = 0.3;
+            // Never scale below 0.4 to keep it legible, allow scrolling instead
+            if (scale < 0.4) scale = 0.4;
             
             document.querySelectorAll('.page').forEach(page => {
                 page.style.transform = `scale(${scale})`;
                 // Adjust margin bottom to close gaps caused by scaling
-                page.style.marginBottom = `${-(page.offsetHeight * (1 - scale)) + 20}px`;
+                const scaledHeight = page.offsetHeight * scale;
+                page.style.marginBottom = `${-(page.offsetHeight - scaledHeight) + 20}px`;
             });
         } else {
             document.querySelectorAll('.page').forEach(page => {

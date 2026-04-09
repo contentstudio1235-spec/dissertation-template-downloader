@@ -16,12 +16,6 @@
     --line-spacing: 2.2;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-color);
@@ -72,6 +66,7 @@ body {
 /* Sidebar Styling */
 #sidebar {
     width: var(--sidebar-width);
+    flex-shrink: 0;
     background: var(--sidebar-bg);
     border-right: 1px solid #e0e6ed;
     display: flex;
@@ -79,6 +74,8 @@ body {
     box-shadow: 2px 0 10px rgba(0,0,0,0.05);
     transition: transform 0.3s ease;
     z-index: 900;
+    height: 100vh;
+    overflow: hidden;
 }
 
 #sidebar header {
@@ -115,6 +112,7 @@ body {
 .controls {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 20px;
 }
 
@@ -181,6 +179,8 @@ h3 {
 .form-group textarea,
 .rich-editor {
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 6px;
@@ -188,6 +188,7 @@ h3 {
     outline: none;
     transition: all 0.2s;
     background: #fff;
+    word-break: break-all;
 }
 
 .rich-editor {
@@ -250,12 +251,13 @@ h3 {
     flex: 1;
     height: 100vh;
     padding: 40px;
-    overflow-y: auto;
+    overflow: auto;
     background: #3a3b3c;
     display: flex;
     justify-content: center;
     position: relative;
     z-index: 1;
+    min-width: 0;
 }
 
 #pages-container {
