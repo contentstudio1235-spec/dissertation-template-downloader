@@ -131,13 +131,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Auto-scaling for pages
     function adjustScaling() {
         const previewWidth = preview.clientWidth - 40;
-        const pageWidth = 21 * 37.795;
+        const pageWidth = 21 * 37.795; // A4 width in px at 96dpi
         
         if (previewWidth < pageWidth) {
-            const scale = previewWidth / pageWidth;
+            let scale = previewWidth / pageWidth;
+            // Never scale below 0.3 to keep it visible
+            if (scale < 0.3) scale = 0.3;
+            
             document.querySelectorAll('.page').forEach(page => {
                 page.style.transform = `scale(${scale})`;
-                page.style.marginBottom = `${-(page.offsetHeight * (1 - scale))}px`;
+                // Adjust margin bottom to close gaps caused by scaling
+                page.style.marginBottom = `${-(page.offsetHeight * (1 - scale)) + 20}px`;
             });
         } else {
             document.querySelectorAll('.page').forEach(page => {
